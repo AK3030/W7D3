@@ -1,7 +1,9 @@
 json.pokemon do
-  json.extract! @pokemon, :id, :name, :attack, :defense, :poke_type, :moves
-  json.image_url asset_path(@pokemon.image_url)
-  json.item_ids @pokemon.items.pluck(:id)
+  json.set! @pokemon.id do
+    json.extract! @pokemon, :id, :name, :attack, :defense, :poke_type, :moves
+    json.image_url @pokemon.image_url.include?("http") ? @pokemon.image_url : asset_path(@pokemon.image_url)
+    json.item_ids @pokemon.items.pluck(:id)
+  end
 end
 
 json.items do

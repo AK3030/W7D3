@@ -37,6 +37,11 @@ class Pokemon < ApplicationRecord
   validates :name, uniqueness: true
   validates :attack, :defense, numericality: true
   validates :poke_type, inclusion: { in: TYPES }
+  validate :valid_url
 
   has_many :items
+
+  def valid_url
+    (image_url.include?("http") || has_asset?(image_url))
+  end
 end
